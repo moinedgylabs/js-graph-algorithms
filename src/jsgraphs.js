@@ -929,7 +929,7 @@ var jsgraphs = jsgraphs || {};
 
     jss.EagerPrimMST = EagerPrimMST;
 
-    var Dijkstra = function (G, s, returnGenerator = false, doProcessNode = v => true) {
+    var Dijkstra = function (G, s, returnGenerator = false, doProcessNode = () => true) {
         var V = G.V;
         this.s = s;
         this.marked = [];
@@ -939,7 +939,8 @@ var jsgraphs = jsgraphs || {};
             return cost1, cost2;
         });
 
-        const gen = function* (self) {
+        self = this;
+        this.generator = function* () {
             for (var v = 0; v < V; ++v) {
                 self.marked.push(false);
                 self.edgeTo.push(null);
@@ -954,7 +955,7 @@ var jsgraphs = jsgraphs || {};
             while (!self.pq.isEmpty()) {
                 var v = self.pq.delMin();
                 self.marked[v] = true;
-                if (!doProcessNode(v)) continue;
+                if (!doProcessNode(this, v)) continue;
                 var adj_v = G.adj(v);
                 for (var i = 0; i < adj_v.length; ++i) {
                     var e = adj_v[i];
@@ -962,11 +963,9 @@ var jsgraphs = jsgraphs || {};
                     yield e.to();
                 }
             }
-        }
-        if (returnGenerator) {
-            return () => gen(this);
-        } else {
-            for (const val of gen(this)) {}
+        };
+        if (!returnGenerator) {
+            for (const val of this.generator()) {}
         }
     };
 
