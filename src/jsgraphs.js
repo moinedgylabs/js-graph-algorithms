@@ -929,7 +929,7 @@ var jsgraphs = jsgraphs || {};
 
     jss.EagerPrimMST = EagerPrimMST;
 
-    var Dijkstra = function (G, s, returnGenerator = false) {
+    var Dijkstra = function (G, s, returnGenerator = false, doProcessNode = v => true) {
         var V = G.V;
         this.s = s;
         this.marked = [];
@@ -954,13 +954,13 @@ var jsgraphs = jsgraphs || {};
             while (!self.pq.isEmpty()) {
                 var v = self.pq.delMin();
                 self.marked[v] = true;
+                if (!doProcessNode(v)) continue;
                 var adj_v = G.adj(v);
                 for (var i = 0; i < adj_v.length; ++i) {
                     var e = adj_v[i];
                     self.relax(e);
                     yield e.to();
                 }
-                
             }
         }
         if (returnGenerator) {
