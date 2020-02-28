@@ -212,6 +212,7 @@ declare namespace JsGraphs {
         private cost;
         private pq;
         constructor(G: WeightedGraph, s: number, returnGenerator?: boolean, doProcessNode?: (self: Dijkstra, v: number) => boolean);
+        generator: any;
         relax(e: Edge): void;
         hasPathTo(v: number): boolean;
         pathTo(v: number): Edge[];
