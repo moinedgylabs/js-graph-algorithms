@@ -211,7 +211,7 @@ declare namespace JsGraphs {
         private edgeTo;
         private cost;
         private pq;
-        constructor(G: WeightedGraph, s: number);
+        constructor(G: WeightedGraph, s: number, returnGenerator: boolean);
         relax(e: Edge): void;
         hasPathTo(v: number): boolean;
         pathTo(v: number): Edge[];
