@@ -12,6 +12,9 @@
   "directories": {
     "test": "test"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "test": "mocha test",
     "cover": "istanbul cover _mocha",
